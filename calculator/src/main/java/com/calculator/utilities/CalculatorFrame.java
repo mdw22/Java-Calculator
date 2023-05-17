@@ -18,6 +18,9 @@ import com.calculator.utilities.Calculation;
 public class CalculatorFrame extends JFrame {
    
     Calculation calculation = new Calculation();
+    // Id to tell which operation to use 1-4
+    // Default is 0
+    int operator_id = 0; 
 
     public CalculatorFrame() {
         // Set the title of the window
@@ -64,6 +67,9 @@ public class CalculatorFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 num_Label.setText("0");
+                calculation.x = 0;
+                calculation.y = 0;
+                calculation.x_set = false;
             }
          });
          button0.addActionListener(new ActionListener() {
@@ -288,9 +294,17 @@ public class CalculatorFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    calculation.set_X(Float.parseFloat(num_Label.getText()));
-                    num_Label.setText("/");
-
+                    // User presses divide twice
+                    if(calculation.x_set) {
+                        calculation.y = calculation.x;
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        num_Label.setText("/" + Float.toString(calculation.division()));
+                    }
+                    else {
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        calculation.x_set = true;
+                        num_Label.setText("/");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     num_Label.setText("ERROR");
@@ -301,9 +315,16 @@ public class CalculatorFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    calculation.set_X(Float.parseFloat(num_Label.getText()));
-                    num_Label.setText("*");
-
+                    if(calculation.x_set) {
+                        calculation.y = calculation.x;
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        num_Label.setText("*" + Float.toString(calculation.multiplication()));
+                    }
+                    else {
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        calculation.x_set = true;
+                        num_Label.setText("*");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     num_Label.setText("ERROR");
@@ -314,9 +335,16 @@ public class CalculatorFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    calculation.set_X(Float.parseFloat(num_Label.getText()));
-                    num_Label.setText("+");
-
+                    if(calculation.x_set) {
+                        calculation.y = calculation.x;
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        num_Label.setText("+" + Float.toString(calculation.addition()));
+                    }
+                    else {
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        calculation.x_set = true;
+                        num_Label.setText("+");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     num_Label.setText("ERROR");
@@ -327,14 +355,51 @@ public class CalculatorFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    calculation.set_X(Float.parseFloat(num_Label.getText()));
-                    num_Label.setText("-");
-
+                    if(calculation.x_set) {
+                        calculation.y = calculation.x;
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        num_Label.setText("-" + Float.toString(calculation.subtraction()));
+                    }
+                    else {
+                        calculation.x = Float.parseFloat(num_Label.getText());
+                        calculation.x_set = true;
+                        num_Label.setText("-");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     num_Label.setText("ERROR");
                 }
             }          
+         });
+         buttonEquals.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (operator_id != 0) {
+                    switch (operator_id) {
+                        case 1:
+                            num_Label.setText(Float.toString(calculation.division()));
+                            break;
+                        case 2:
+                            num_Label.setText(Float.toString(calculation.multiplication()));
+                            break;
+                        case 3:
+                            num_Label.setText(Float.toString(calculation.addition()));
+                            break;
+                        case 4:
+                            num_Label.setText(Float.toString(calculation.subtraction()));
+                            break;
+                        default:
+                            break;
+                    };
+                }
+                else {
+                    num_Label.setText("ERROR");
+                }
+                calculation.x = 0;
+                calculation.y = 0;
+                calculation.x_set = false;
+            }
+            
          });
  
          // Add the buttons to the panel
