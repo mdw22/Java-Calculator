@@ -2,7 +2,6 @@
  * Code by Michael White
  */
 package com.calculator;
-import com.calculator.utilities.CalculatorFrame;
 
 public final class App {
     private App() {

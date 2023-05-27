@@ -3,7 +3,11 @@ package com.calculator.utilities;
 public class Calculation {
 
     public static float x = 0, y = 0;
-    public boolean x_set = false; 
+
+    public static void resetVars() {
+        x = 0;
+        y = 0;
+    }
     
     public static float division() {
         try {
@@ -21,29 +25,5 @@ public class Calculation {
             e.printStackTrace();
             return 0;
         }
-    }
-
-    public static float multiplication() {
-        return x * y;
-    }
-
-    public static float multiplication(float x, float y) {
-        return x * y;
-    }
-
-    public static float addition() {
-        return x + y;
-    }
-
-    public static float addition(float x, float y) {
-        return x + y;
-    }
-
-    public static float subtraction() {
-        return x - y;
-    }
-    
-    public static float subtraction(float x, float y) {
-        return x - y;
     }
 }
